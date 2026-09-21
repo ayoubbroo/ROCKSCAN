@@ -14,7 +14,7 @@ on:
           - production
 
 env:
-  NODE_VERSION: '20'
+  NODE_VERSION: '22'
 
 jobs:
   build-android:
@@ -29,7 +29,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
+          # cache: 'npm' removed — needs a package-lock.json committed in the repo.
+          # Re-add it (with cache-dependency-path if needed) once you commit a lock file.
 
       - name: Install mobile dependencies
         run: npm install --no-audit --no-fund
