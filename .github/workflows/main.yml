@@ -1,0 +1,67 @@
+name: Build Android APK
+
+on:
+  workflow_dispatch:
+    inputs:
+      build_profile:
+        description: 'EAS build profile'
+        required: false
+        default: 'preview'
+        type: choice
+        options:
+          - preview
+          - development
+          - production
+
+env:
+  NODE_VERSION: '20'
+
+jobs:
+  build-android:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install mobile dependencies
+        run: npm install --no-audit --no-fund
+
+      # -----------------------------------------------------------------------
+      # Verify the EXPO_TOKEN secret is actually configured BEFORE trying to
+      # use it. We only check whether the value is empty — we never print
+      # the value itself.
+      # -----------------------------------------------------------------------
+      - name: Verify EXPO_TOKEN secret is configured
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+        run: |
+          if [ -z "$EXPO_TOKEN" ]; then
+            echo "::error::EXPO_TOKEN secret is not set. Add it under Repo Settings > Secrets and variables > Actions."
+            exit 1
+          fi
+          echo "EXPO_TOKEN secret is present (value not shown)."
+
+      - name: Install EAS CLI
+        run: npm install -g eas-cli@latest
+
+      # -----------------------------------------------------------------------
+      # The actual APK build.
+      # --non-interactive prevents eas-cli from prompting in CI.
+      # -----------------------------------------------------------------------
+      - name: Build Android APK with EAS
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+        run: |
+          eas build \
+            --platform android \
+            --profile "${{ github.event.inputs.build_profile || 'preview' }}" \
+            --non-interactive \
+            --wait
