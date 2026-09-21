@@ -1,0 +1,23 @@
+{
+  "name": "rock-archive-pro",
+  "version": "1.0.0",
+  "private": true,
+  "description": "ROCK ARCHIVE PRO — geological rock and mineral identification and archiving platform (backend + Expo/React Native mobile app)",
+  "workspaces": ["backend", "mobile"],
+  "scripts": {
+    "install:all": "npm install --prefix backend && npm install --prefix mobile",
+    "backend:dev": "npm run dev --prefix backend",
+    "backend:start": "npm run start --prefix backend",
+    "mobile:start": "npm run start --prefix mobile",
+    "mobile:android": "npm run android --prefix mobile",
+    "test:backend": "jest --config tests/jest.config.js tests/backend",
+    "test:mobile": "jest --config tests/jest.config.js tests/mobile",
+    "test": "jest --config tests/jest.config.js tests",
+    "build:apk": "npm run build:apk:preview --prefix mobile",
+    "build:production": "npm run build:android:production --prefix mobile"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
+  },
+  "license": "MIT"
+}

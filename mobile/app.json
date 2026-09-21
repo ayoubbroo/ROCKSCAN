@@ -1,0 +1,60 @@
+{
+  "expo": {
+    "name": "ROCK ARCHIVE PRO",
+    "slug": "rock-archive-pro",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#0B1E33"
+    },
+    "assetBundlePatterns": ["**/*"],
+    "android": {
+      "package": "com.elbrothersservice.rockarchivepro",
+      "versionCode": 1,
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#0B1E33"
+      },
+      "permissions": [
+        "CAMERA",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE",
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION"
+      ]
+    },
+    "ios": {
+      "bundleIdentifier": "com.elbrothersservice.rockarchivepro",
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSCameraUsageDescription": "ROCK ARCHIVE PRO uses the camera to photograph specimens for identification and archiving.",
+        "NSPhotoLibraryUsageDescription": "ROCK ARCHIVE PRO needs access to your photo library to attach existing specimen photos.",
+        "NSLocationWhenInUseUsageDescription": "ROCK ARCHIVE PRO can optionally record where a specimen was collected."
+      }
+    },
+    "plugins": [
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "ROCK ARCHIVE PRO uses the camera to photograph specimens for identification."
+        }
+      ],
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "ROCK ARCHIVE PRO can optionally record where a specimen was collected."
+        }
+      ]
+    ],
+    "extra": {
+      "apiBaseUrl": "http://10.0.2.2:4000",
+      "eas": {
+        "projectId": "REPLACE_WITH_YOUR_EAS_PROJECT_ID"
+      }
+    }
+  }
+}
