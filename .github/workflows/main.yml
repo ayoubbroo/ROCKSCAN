@@ -36,6 +36,16 @@ jobs:
         run: npm install --no-audit --no-fund
 
       # -----------------------------------------------------------------------
+      # Diagnostic: print which repo/branch/event this run is actually using.
+      # Helps confirm the secret was added to the SAME repo that is running.
+      # -----------------------------------------------------------------------
+      - name: Print run context (debug)
+        run: |
+          echo "Repository: ${{ github.repository }}"
+          echo "Ref: ${{ github.ref }}"
+          echo "Event: ${{ github.event_name }}"
+
+      # -----------------------------------------------------------------------
       # Verify the EXPO_TOKEN secret is actually configured BEFORE trying to
       # use it. We only check whether the value is empty — we never print
       # the value itself.
