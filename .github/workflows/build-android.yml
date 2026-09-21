@@ -29,10 +29,13 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          # cache: 'npm' removed — needs a package-lock.json committed in the repo.
-          # Re-add it (with cache-dependency-path if needed) once you commit a lock file.
 
+      # -----------------------------------------------------------------------
+      # This project's mobile app (and its eas.json) lives in mobile/, not
+      # the repo root — install and build must run from that folder.
+      # -----------------------------------------------------------------------
       - name: Install mobile dependencies
+        working-directory: mobile
         run: npm install --no-audit --no-fund
 
       # -----------------------------------------------------------------------
@@ -64,10 +67,11 @@ jobs:
         run: npm install -g eas-cli@latest
 
       # -----------------------------------------------------------------------
-      # The actual APK build.
+      # The actual APK build. Runs from mobile/ where eas.json lives.
       # --non-interactive prevents eas-cli from prompting in CI.
       # -----------------------------------------------------------------------
       - name: Build Android APK with EAS
+        working-directory: mobile
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
         run: |
