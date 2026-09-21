@@ -5,7 +5,7 @@ on:
     inputs:
       build_profile:
         description: 'EAS build profile'
-        required: false
+        required: false 
         default: 'preview'
         type: choice
         options:
